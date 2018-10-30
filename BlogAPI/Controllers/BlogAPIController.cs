@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BlogAPI.Models;
+using Blog.Web.Models;
 
 namespace BlogAPI.Controllers
 {
@@ -22,17 +23,18 @@ namespace BlogAPI.Controllers
 
         // GET: api/BlogAPI
         [HttpGet]
-        public IEnumerable<Comment> GetComments()
+        public IEnumerable<CommentDTO> GetComments()
         {
-            return from Userinfo in _context.UserInfos
-                   join comments in _context.Comments on Userinfo equals comments.CommentingUser
+            var comment = from Userinfo in _context.UserInfos
+                   join comments in _context.Comments on Userinfo equals comments.CommentingUser into comments
+                   from p in comments.DefaultIfEmpty()
                    join post in _context.Posts on Userinfo equals post.PostingUser
                    select new Comment()
                    {
-                       CommentId = comments.CommentId,
+                       CommentId = p == null ? 0 : p.CommentId,
                        CommentingUser = Userinfo,
-                       Content = comments.Content,
-                       DateOfComment = comments.DateOfComment,
+                       Content = p.Content,
+                       DateOfComment = p == null ? DateTime.Now : p.DateOfComment,
                        Post = new Post()
                        {
                            Content = post.Content,
@@ -42,6 +44,10 @@ namespace BlogAPI.Controllers
                            Title = post.Title
                        }
                    };
+            foreach (Comment item in comment)
+            {
+                yield return AutoMapper.Mapper.Map<Comment, CommentDTO>(item);
+            }
         }
 
         // GET: api/BlogAPI/5
@@ -71,13 +77,13 @@ namespace BlogAPI.Controllers
                                    Title = post.Title
                                }
                            };
-
+            CommentDTO dto = AutoMapper.Mapper.Map<Comment, CommentDTO>(comment.FirstOrDefault());
             if (comment.FirstOrDefault(c => c.CommentId == id) == null)
             {
                 return NotFound();
             }
 
-            return Ok(comment.FirstOrDefault(c => c.CommentId == id));
+            return Ok(dto);
         }
 
         // PUT: api/BlogAPI/5

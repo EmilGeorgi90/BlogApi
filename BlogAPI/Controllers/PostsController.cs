@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BlogAPI.Models;
+using Blog.Web.Models;
 
 namespace BlogAPI.Controllers
 {
@@ -24,19 +25,18 @@ namespace BlogAPI.Controllers
         [HttpGet]
         public IEnumerable<Post> GetPosts()
         {
-            
-            return from Userinfo in _context.UserInfos
-                   join comments in _context.Comments on Userinfo equals comments.CommentingUser into userComments
-                   join post in _context.Posts on Userinfo equals post.PostingUser
-                   select new Post()
-                   {
-                       Comments = (ICollection<Comment>)userComments.DefaultIfEmpty(),
-                       Content = post.Content,
-                       DateOfPost = post.DateOfPost,
-                       PostId = post.PostId,
-                       PostingUser = new UserInfo() { Comments = Userinfo.Comments, Name = Userinfo.Name, NumberOfComments = Userinfo.NumberOfComments, NumberOfPosts = Userinfo.NumberOfPosts, Posts = Userinfo.Posts, ProfilPictureUrl = Userinfo.ProfilPictureUrl, RegisterDate = Userinfo.RegisterDate, UserInfoID = Userinfo.UserInfoID, Username = Userinfo.Username },
-                       Title = post.Title
-                   };
+
+            return (from Userinfo in _context.UserInfos
+                        join post in _context.Posts on Userinfo equals post.PostingUser
+                        select new Post()
+                        {
+                            Content = post.Content,
+                            DateOfPost = post.DateOfPost,
+                            PostId = post.PostId,
+                            ImageUrl = post.ImageUrl,
+                            PostingUser = new UserInfo() { Name = Userinfo.Name, NumberOfComments = Userinfo.NumberOfComments, NumberOfPosts = Userinfo.NumberOfPosts, Posts = Userinfo.Posts, ProfilPictureUrl = Userinfo.ProfilPictureUrl, RegisterDate = Userinfo.RegisterDate, UserInfoID = Userinfo.UserInfoID, Username = Userinfo.Username },
+                            Title = post.Title
+                        });
         }
 
         // GET: api/Posts/5
@@ -48,25 +48,25 @@ namespace BlogAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var comment = from Userinfo in _context.UserInfos
-                          join comments in _context.Comments on Userinfo equals comments.CommentingUser into userComments
-                          join post in _context.Posts on Userinfo equals post.PostingUser
-                          select new Post()
-                          {
-                              Comments = (ICollection<Comment>)userComments,
-                              Content = post.Content,
-                              DateOfPost = post.DateOfPost,
-                              PostId = post.PostId,
-                              PostingUser = new UserInfo() { Comments = Userinfo.Comments, Name = Userinfo.Name, NumberOfComments = Userinfo.NumberOfComments, NumberOfPosts = Userinfo.NumberOfPosts, Posts = Userinfo.Posts, ProfilPictureUrl = Userinfo.ProfilPictureUrl, RegisterDate = Userinfo.RegisterDate, UserInfoID = Userinfo.UserInfoID, Username = Userinfo.Username },
-                              Title = post.Title
-                          };
-
-            if (comment.FirstOrDefault(c => c.PostId == id) is null)
+            var posts = from Userinfo in _context.UserInfos
+                        join comments in _context.Comments on Userinfo equals comments.CommentingUser into userComments
+                        join post in _context.Posts on Userinfo equals post.PostingUser
+                        select new Post()
+                        {
+                            Comments = (ICollection<Comment>)userComments,
+                            Content = post.Content,
+                            DateOfPost = post.DateOfPost,
+                            PostId = post.PostId,
+                            PostingUser = new UserInfo() { Comments = Userinfo.Comments, Name = Userinfo.Name, NumberOfComments = Userinfo.NumberOfComments, NumberOfPosts = Userinfo.NumberOfPosts, Posts = Userinfo.Posts, ProfilPictureUrl = Userinfo.ProfilPictureUrl, RegisterDate = Userinfo.RegisterDate, UserInfoID = Userinfo.UserInfoID, Username = Userinfo.Username },
+                            Title = post.Title
+                        };
+            PostDTO dto = AutoMapper.Mapper.Map<Post, PostDTO>(posts.FirstOrDefault(c => c.PostId == id));
+            if (dto is null)
             {
                 return NotFound();
             }
 
-            return Ok(comment.FirstOrDefault(c => c.PostId == id));
+            return Ok(dto);
         }
 
         // PUT: api/Posts/5

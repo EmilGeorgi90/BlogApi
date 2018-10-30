@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogAPI.Migrations
 {
     [DbContext(typeof(BlogAPIContext))]
-    [Migration("20181026092617_BlogAPI")]
-    partial class BlogAPI
+    [Migration("20181030094852_blogapi")]
+    partial class blogapi
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,8 @@ namespace BlogAPI.Migrations
                     b.Property<string>("Content");
 
                     b.Property<DateTime>("DateOfPost");
+
+                    b.Property<string>("ImageUrl");
 
                     b.Property<int?>("PostingUserUserInfoID");
 

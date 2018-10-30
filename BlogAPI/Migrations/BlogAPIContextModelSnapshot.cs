@@ -52,6 +52,8 @@ namespace BlogAPI.Migrations
 
                     b.Property<DateTime>("DateOfPost");
 
+                    b.Property<string>("ImageUrl");
+
                     b.Property<int?>("PostingUserUserInfoID");
 
                     b.Property<string>("Title");
