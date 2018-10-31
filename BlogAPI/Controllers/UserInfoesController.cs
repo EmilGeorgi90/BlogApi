@@ -26,21 +26,21 @@ namespace BlogAPI.Controllers
         public IEnumerable<UserInfo> GetUserInfos()
         {
             return from Userinfo in _context.UserInfos
-                             join comments in _context.Comments on Userinfo equals comments.CommentingUser into userComments
-                             join post in _context.Posts on Userinfo equals post.PostingUser into userPosts
-                             select new UserInfo()
-                             {
-                                 Comments = new List<Comment>(userComments),
-                                 Name = Userinfo.Name,
-                                 NumberOfComments = Userinfo.NumberOfComments,
-                                 NumberOfPosts = Userinfo.NumberOfPosts,
-                                 Posts = (ICollection<Post>)userPosts,
-                                 ProfilPictureUrl = Userinfo.ProfilPictureUrl,
-                                 RegisterDate = Userinfo.RegisterDate,
-                                 UserInfoID = Userinfo.UserInfoID,
-                                 Username = Userinfo.Username
-                             };
-                    }
+                   join comments in _context.Comments on Userinfo equals comments.CommentingUser into userComments
+                   join post in _context.Posts on Userinfo equals post.PostingUser into userPosts
+                   select new UserInfo()
+                   {
+                       Comments = new List<Comment>(userComments),
+                       Name = Userinfo.Name,
+                       NumberOfComments = Userinfo.NumberOfComments,
+                       NumberOfPosts = Userinfo.NumberOfPosts,
+                       Posts = (ICollection<Post>)userPosts,
+                       ProfilPictureUrl = Userinfo.ProfilPictureUrl,
+                       RegisterDate = Userinfo.RegisterDate,
+                       UserInfoID = Userinfo.UserInfoID,
+                       Username = Userinfo.Username
+                   };
+        }
 
         // GET: api/UserInfoes/5
         [HttpGet("{id}")]
@@ -74,6 +74,60 @@ namespace BlogAPI.Controllers
             }
 
             return Ok(dto);
+        }
+
+        [HttpGet("{id}/posts")]
+        public IActionResult GetUserInfoesPost([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userInfos = from Userinfo in _context.UserInfos
+                            join comments in _context.Comments on Userinfo equals comments.CommentingUser
+                            join post in _context.Posts on Userinfo equals post.PostingUser
+                            select new PostDTO()
+                            {
+                                Content = post.Content,
+                                DateOfPost = post.DateOfPost,
+                                ImageUrl = post.ImageUrl,
+                                PostId = post.PostId,
+                                PostingUser = AutoMapper.Mapper.Map<UserInfo, UserinfoDTO>(post.PostingUser),
+                                Title = post.Title
+                            };
+            if (userInfos.FirstOrDefault(u => u.PostingUser.UserInfoID == id) is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userInfos.FirstOrDefault(u => u.PostingUser.UserInfoID == id));
+        }
+        [HttpGet("{id}/comments")]
+        public IActionResult GetUserComment([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userInfos = from Userinfo in _context.UserInfos
+                            join comments in _context.Comments on Userinfo equals comments.CommentingUser
+                            join post in _context.Posts on Userinfo equals post.PostingUser
+                            select new CommentDTO()
+                            {
+                                Content = comments.Content,
+                                DateOfComment = comments.DateOfComment,
+                                CommentId = comments.CommentId,
+                                CommentingUser = AutoMapper.Mapper.Map<UserInfo,UserinfoDTO>(comments.CommentingUser),
+                                Post = AutoMapper.Mapper.Map<Post,PostDTO>(comments.Post)
+                            };
+            if (userInfos.FirstOrDefault(u => u.CommentingUser.UserInfoID == id) is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userInfos.FirstOrDefault(u => u.CommentingUser.UserInfoID == id));
         }
 
         // PUT: api/UserInfoes/5

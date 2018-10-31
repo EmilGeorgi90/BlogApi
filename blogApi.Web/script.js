@@ -23,4 +23,9 @@ $(document).ready(function(){
                 )
             })
         });
+        $('.nav-item').click(function(e){
+            event.preventDefault(e);
+            $('.active').removeClass('active').addClass('place-holder')
+            $(this).children('.place-holder ').addClass('active').removeClass('place-holder');   
+        })
     })

@@ -33,7 +33,7 @@ namespace BlogAPI
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<BlogAPIContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("BlogAPIContext")));
+                    options.UseSqlServer(@"Server=(localdb)\\mssqllocaldb;Database=BlogAPIContext-f6e6f265-4faa-4f87-a186-9e4d1081e23f;Trusted_Connection=True;MultipleActiveResultSets=true"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
