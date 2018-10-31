@@ -12,11 +12,11 @@ namespace BlogAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogAPIController : ControllerBase
+    public class CommentsController : ControllerBase
     {
         private readonly BlogAPIContext _context;
 
-        public BlogAPIController(BlogAPIContext context)
+        public CommentsController(BlogAPIContext context)
         {
             _context = context;
         }

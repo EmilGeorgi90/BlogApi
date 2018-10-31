@@ -23,9 +23,9 @@ namespace BlogAPI.Controllers
 
         // GET: api/UserInfoes
         [HttpGet]
-        public IEnumerable<UserinfoDTO> GetUserInfos()
+        public IEnumerable<UserInfo> GetUserInfos()
         {
-            var userInfoes = from Userinfo in _context.UserInfos
+            return from Userinfo in _context.UserInfos
                              join comments in _context.Comments on Userinfo equals comments.CommentingUser into userComments
                              join post in _context.Posts on Userinfo equals post.PostingUser into userPosts
                              select new UserInfo()
@@ -40,11 +40,7 @@ namespace BlogAPI.Controllers
                                  UserInfoID = Userinfo.UserInfoID,
                                  Username = Userinfo.Username
                              };
-            foreach (UserInfo item in userInfoes)
-            {
-                yield return AutoMapper.Mapper.Map<UserInfo, UserinfoDTO>(item);
-            }
-        }
+                    }
 
         // GET: api/UserInfoes/5
         [HttpGet("{id}")]

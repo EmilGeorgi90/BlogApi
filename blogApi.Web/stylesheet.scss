@@ -20,12 +20,20 @@ head,body{
     }
     .nav-item{
         .active{
+            text-align: center;
+            margin: 0 auto; 
             height: 15px;
             width: 15px;
             border-radius: 50%;
             background-color: blue;
         }
+        .place-holder{
+            height: 15px;
+            width: 15px;
+            margin: 0 auto;
+        }
         .nav-link{
+            text-align: end;
             color: black;
         }   
     }

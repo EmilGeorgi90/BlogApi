@@ -25,13 +25,22 @@ head .image .headertextH1, body .image .headertextH1 {
 }
 
 head .nav-item .active, body .nav-item .active {
+  text-align: center;
+  margin: 0 auto;
   height: 15px;
   width: 15px;
   border-radius: 50%;
   background-color: blue;
 }
 
+head .nav-item .place-holder, body .nav-item .place-holder {
+  height: 15px;
+  width: 15px;
+  margin: 0 auto;
+}
+
 head .nav-item .nav-link, body .nav-item .nav-link {
+  text-align: end;
   color: black;
 }
 

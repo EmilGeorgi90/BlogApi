@@ -49,7 +49,12 @@ namespace BlogAPI
             }
             app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc(routers =>
+                {
+                    routers.MapRoute("default", "{Controller=Posts}/{id?}/{action=Comment}");
+                }
+            );
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

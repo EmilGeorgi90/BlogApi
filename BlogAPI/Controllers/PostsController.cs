@@ -68,6 +68,33 @@ namespace BlogAPI.Controllers
 
             return Ok(dto);
         }
+        [HttpGet("{id}/comments")]
+        public IActionResult GetComments([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var comment = _context.Comments;
+
+            var posts = from Userinfo in _context.UserInfos
+                        join comments in _context.Comments on Userinfo equals comments.CommentingUser
+                        join post in _context.Posts on Userinfo equals post.PostingUser
+                        select new CommentDTO()
+                        {
+                            Content = post.Content,
+                            CommentId = comments.CommentId,
+                            CommentingUser = AutoMapper.Mapper.Map<UserInfo, UserinfoDTO>(comments.CommentingUser),
+                            DateOfComment = comments.DateOfComment,
+                            Post = AutoMapper.Mapper.Map<Post,PostDTO>(comments.Post)
+                        };
+            if (posts is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(posts);
+        }
 
         // PUT: api/Posts/5
         [HttpPut("{id}")]
