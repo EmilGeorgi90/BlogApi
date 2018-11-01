@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogAPI.Migrations
 {
     [DbContext(typeof(BlogAPIContext))]
-    [Migration("20181030094852_blogapi")]
-    partial class blogapi
+    [Migration("20181101080238_BlogApi")]
+    partial class BlogApi
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
