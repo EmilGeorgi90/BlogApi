@@ -85,7 +85,6 @@ namespace BlogAPI.Controllers
             }
 
             var userInfos = from Userinfo in _context.UserInfos
-                            join comments in _context.Comments on Userinfo equals comments.CommentingUser
                             join post in _context.Posts on Userinfo equals post.PostingUser
                             select new PostDTO()
                             {
@@ -101,7 +100,7 @@ namespace BlogAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(userInfos.FirstOrDefault(u => u.PostingUser.UserInfoID == id));
+            return Ok(userInfos.Where(u => u.PostingUser.UserInfoID == id));
         }
         [HttpGet("{id}/comments")]
         public IActionResult GetUserComment([FromRoute] int id)
@@ -167,14 +166,13 @@ namespace BlogAPI.Controllers
 
         // POST: api/UserInfoes
         [HttpPost]
-        public async Task<IActionResult> PostUserInfo([FromBody] UserInfo userInfo)
+        public async Task<IActionResult> PostUserInfo([FromBody] UserinfoDTO userInfo)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            _context.UserInfos.Add(userInfo);
+            _context.UserInfos.Add(AutoMapper.Mapper.Map<UserinfoDTO, UserInfo>(userInfo));
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUserInfo", new { id = userInfo.UserInfoID }, userInfo);

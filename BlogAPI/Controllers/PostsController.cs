@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BlogAPI.Models;
 using Blog.Web.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BlogAPI.Controllers
 {
@@ -23,20 +24,20 @@ namespace BlogAPI.Controllers
 
         // GET: api/Posts
         [HttpGet]
-        public IEnumerable<Post> GetPosts()
+        public IEnumerable<PostDTO> GetPosts()
         {
 
-            return (from Userinfo in _context.UserInfos
-                        join post in _context.Posts on Userinfo equals post.PostingUser
-                        select new Post()
-                        {
-                            Content = post.Content,
-                            DateOfPost = post.DateOfPost,
-                            PostId = post.PostId,
-                            ImageUrl = post.ImageUrl,
-                            PostingUser = new UserInfo() { Name = Userinfo.Name, NumberOfComments = Userinfo.NumberOfComments, NumberOfPosts = Userinfo.NumberOfPosts, Posts = Userinfo.Posts, ProfilPictureUrl = Userinfo.ProfilPictureUrl, RegisterDate = Userinfo.RegisterDate, UserInfoID = Userinfo.UserInfoID, Username = Userinfo.Username },
-                            Title = post.Title
-                        });
+            return AutoMapper.Mapper.Map<IEnumerable<Post>, IEnumerable<PostDTO>>((from Userinfo in _context.UserInfos
+                                                                                   join post in _context.Posts on Userinfo equals post.PostingUser
+                                                                                   select new Post()
+                                                                                   {
+                                                                                       Content = post.Content,
+                                                                                       DateOfPost = post.DateOfPost,
+                                                                                       PostId = post.PostId,
+                                                                                       ImageUrl = post.ImageUrl,
+                                                                                       PostingUser = new UserInfo() { Name = Userinfo.Name, NumberOfComments = Userinfo.NumberOfComments, NumberOfPosts = Userinfo.NumberOfPosts, Posts = Userinfo.Posts, ProfilPictureUrl = Userinfo.ProfilPictureUrl, RegisterDate = Userinfo.RegisterDate, UserInfoID = Userinfo.UserInfoID, Username = Userinfo.Username },
+                                                                                       Title = post.Title
+                                                                                   }).ToList());
         }
 
         // GET: api/Posts/5
@@ -139,11 +140,21 @@ namespace BlogAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            _context.Posts.Add(post);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPost", new { id = post.PostId }, post);
+            if(post.PostingUser is null)
+            {
+                return BadRequest(ModelState);
+            }
+            else if(post.PostingUser.UserInfoID is 0)
+            {
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                post.PostingUser = _context.UserInfos.FirstOrDefault(c => c.UserInfoID == post.PostingUser.UserInfoID);
+                _context.Posts.Add(post);
+                await _context.SaveChangesAsync();
+            }
+            return Ok(post);
         }
 
         // DELETE: api/Posts/5
