@@ -52,7 +52,7 @@ namespace BlogAPI
             {
                 app.UseHsts();
             }
-            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowAnyOrigin());
             app.UseHttpsRedirection();
             app.UseMvc(routers =>
                 {
