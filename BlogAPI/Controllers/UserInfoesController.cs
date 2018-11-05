@@ -173,6 +173,10 @@ namespace BlogAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
+            if(userInfo.UserInfoID != 0)
+            {
+                return BadRequest();
+            }
             _context.UserInfos.Add(AutoMapper.Mapper.Map<UserinfoDTO, UserInfo>(userInfo));
             await _context.SaveChangesAsync();
 
