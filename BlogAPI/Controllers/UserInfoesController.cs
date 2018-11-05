@@ -19,6 +19,7 @@ namespace BlogAPI.Controllers
         public UserInfoesController(BlogAPIContext context)
         {
             _context = context;
+
         }
 
         // GET: api/UserInfoes

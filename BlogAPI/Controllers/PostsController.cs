@@ -134,8 +134,9 @@ namespace BlogAPI.Controllers
 
         // POST: api/Posts
         [HttpPost]
-        public async Task<IActionResult> PostPost([FromBody] Post post)
+        public async Task<IActionResult> PostPost([FromBody] PostDTO post)
         {
+            Post savingPost = null;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -150,11 +151,13 @@ namespace BlogAPI.Controllers
             }
             else
             {
-                post.PostingUser = _context.UserInfos.FirstOrDefault(c => c.UserInfoID == post.PostingUser.UserInfoID);
-                _context.Posts.Add(post);
+                savingPost = AutoMapper.Mapper.Map<PostDTO, Post>(post);
+                savingPost.PostingUser = _context.UserInfos.FirstOrDefault(c => c.UserInfoID == savingPost.PostingUser.UserInfoID);
+                _context.Posts.Add(savingPost);
                 await _context.SaveChangesAsync();
             }
-            return Ok(post);
+            post = AutoMapper.Mapper.Map<Post, PostDTO>(savingPost);
+            return CreatedAtAction("GetPost", new { id = savingPost.PostId }, post);
         }
 
         // DELETE: api/Posts/5

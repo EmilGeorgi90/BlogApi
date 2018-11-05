@@ -28,7 +28,12 @@ namespace BlogAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            AutoMapper.Mapper.Initialize(cfg => cfg.CreateMap<Comment, CommentDTO>().ReverseMap());
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+            cfg.CreateMap<Post, PostDTO>().ReverseMap().ForPath(p => p.Comments, opt => opt.Ignore());
+            cfg.CreateMap<Comment, CommentDTO>().ForMember(c => c.Post, opt => opt.MapFrom(src => src.Post)).ForMember(c => c.CommentingUser, opt => opt.MapFrom(src => src.CommentingUser)).ReverseMap().ForPath(s => s.CommentingUser, opt => opt.MapFrom(src => src.CommentingUser));
+            cfg.CreateMap<UserInfo, UserinfoDTO>().ReverseMap().ForPath(u => u.Comments, opt => opt.Ignore()).ForPath(u => u.Posts, opt => opt.Ignore());
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
