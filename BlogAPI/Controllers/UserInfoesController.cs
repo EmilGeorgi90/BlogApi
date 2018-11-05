@@ -24,9 +24,9 @@ namespace BlogAPI.Controllers
 
         // GET: api/UserInfoes
         [HttpGet]
-        public IEnumerable<UserInfo> GetUserInfos()
+        public IEnumerable<UserinfoDTO> GetUserInfos()
         {
-            return from Userinfo in _context.UserInfos
+            return AutoMapper.Mapper.Map<IEnumerable<UserInfo>, IEnumerable<UserinfoDTO>>(from Userinfo in _context.UserInfos
                    join comments in _context.Comments on Userinfo equals comments.CommentingUser into userComments
                    join post in _context.Posts on Userinfo equals post.PostingUser into userPosts
                    select new UserInfo()
@@ -40,7 +40,7 @@ namespace BlogAPI.Controllers
                        RegisterDate = Userinfo.RegisterDate,
                        UserInfoID = Userinfo.UserInfoID,
                        Username = Userinfo.Username
-                   };
+                   });
         }
 
         // GET: api/UserInfoes/5
@@ -93,15 +93,15 @@ namespace BlogAPI.Controllers
                                 DateOfPost = post.DateOfPost,
                                 ImageUrl = post.ImageUrl,
                                 PostId = post.PostId,
-                                PostingUser = AutoMapper.Mapper.Map<UserInfo, UserinfoDTO>(post.PostingUser),
+                                PostingUserID = AutoMapper.Mapper.Map<UserInfo, UserinfoDTO>(post.PostingUser).UserInfoID,
                                 Title = post.Title
                             };
-            if (userInfos.FirstOrDefault(u => u.PostingUser.UserInfoID == id) is null)
+            if (userInfos.FirstOrDefault(u => u.PostingUserID == id) is null)
             {
                 return NotFound();
             }
 
-            return Ok(userInfos.Where(u => u.PostingUser.UserInfoID == id));
+            return Ok(userInfos.Where(u => u.PostingUserID == id));
         }
         [HttpGet("{id}/comments")]
         public IActionResult GetUserComment([FromRoute] int id)

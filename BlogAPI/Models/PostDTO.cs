@@ -13,6 +13,7 @@ namespace Blog.Web.Models
         public string Content { get; set; }
         public string ImageUrl { get; set; }
         public DateTime DateOfPost { get; set; }
+        public int PostingUserID { get; set; }
         public UserinfoDTO PostingUser { get; set; }
     }
 }

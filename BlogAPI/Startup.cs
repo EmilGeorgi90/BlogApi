@@ -30,7 +30,7 @@ namespace BlogAPI
         {
             AutoMapper.Mapper.Initialize(cfg =>
             {
-            cfg.CreateMap<Post, PostDTO>().ReverseMap().ForPath(p => p.Comments, opt => opt.Ignore());
+            cfg.CreateMap<Post, PostDTO>().ForMember(p => p.PostingUserID, opt => opt.MapFrom(po => po.PostingUser.UserInfoID)).ReverseMap().ForPath(p => p.Comments, opt => opt.Ignore());
             cfg.CreateMap<Comment, CommentDTO>().ForMember(c => c.Post, opt => opt.MapFrom(src => src.Post)).ForMember(c => c.CommentingUser, opt => opt.MapFrom(src => src.CommentingUser)).ReverseMap().ForPath(s => s.CommentingUser, opt => opt.MapFrom(src => src.CommentingUser));
             cfg.CreateMap<UserInfo, UserinfoDTO>().ReverseMap().ForPath(u => u.Comments, opt => opt.Ignore()).ForPath(u => u.Posts, opt => opt.Ignore());
             });

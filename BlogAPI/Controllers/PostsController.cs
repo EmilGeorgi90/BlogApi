@@ -141,11 +141,7 @@ namespace BlogAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if(post.PostingUser is null)
-            {
-                return BadRequest(ModelState);
-            }
-            else if(post.PostingUser.UserInfoID is 0)
+            else if(post.PostingUserID is 0)
             {
                 return BadRequest(ModelState);
             }
