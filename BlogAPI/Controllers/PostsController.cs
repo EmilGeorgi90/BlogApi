@@ -99,7 +99,7 @@ namespace BlogAPI.Controllers
 
         // PUT: api/Posts/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPost([FromRoute] int id, [FromBody] Post post)
+        public async Task<IActionResult> PutPost([FromRoute] int id, [FromBody] PostDTO post)
         {
             if (!ModelState.IsValid)
             {
@@ -110,8 +110,12 @@ namespace BlogAPI.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(post).State = EntityState.Modified;
+            if(post.PostingUserID > 0)
+            {
+                post.PostingUser = AutoMapper.Mapper.Map<UserInfo,UserinfoDTO>(_context.UserInfos.FirstOrDefault(u => u.UserInfoID == post.PostingUserID));
+            }
+            Post editedPost = AutoMapper.Mapper.Map<PostDTO, Post>(post);
+            _context.Entry(editedPost).State = EntityState.Modified;
 
             try
             {

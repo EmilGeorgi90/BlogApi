@@ -132,7 +132,7 @@ namespace BlogAPI.Controllers
 
         // PUT: api/UserInfoes/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserInfo([FromRoute] int id, [FromBody] UserInfo userInfo)
+        public async Task<IActionResult> PutUserInfo([FromRoute] int id, [FromBody] UserinfoDTO userInfo)
         {
             if (!ModelState.IsValid)
             {
@@ -143,8 +143,8 @@ namespace BlogAPI.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(userInfo).State = EntityState.Modified;
+            UserInfo editedUser = AutoMapper.Mapper.Map<UserinfoDTO, UserInfo>(userInfo);
+            _context.Entry(editedUser).State = EntityState.Modified;
 
             try
             {
