@@ -55,6 +55,7 @@ namespace BlogAPI.Controllers
                         select new Post()
                         {
                             Comments = (ICollection<Comment>)userComments,
+                            ImageUrl = post.ImageUrl,
                             Content = post.Content,
                             DateOfPost = post.DateOfPost,
                             PostId = post.PostId,
