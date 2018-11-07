@@ -26,29 +26,20 @@ namespace BlogAPI.Controllers
         [HttpGet]
         public IEnumerable<CommentDTO> GetComments()
         {
-            var comment = from Userinfo in _context.UserInfos
-                          join comments in _context.Comments on Userinfo equals comments.CommentingUser into comments
-                          from p in comments.DefaultIfEmpty()
-                          join post in _context.Posts on Userinfo equals post.PostingUser
-                          select new Comment()
-                          {
-                              CommentId = p == null ? 0 : p.CommentId,
-                              CommentingUser = Userinfo,
-                              Content = p.Content,
-                              DateOfComment = p == null ? DateTime.Now : p.DateOfComment,
-                              Post = new Post()
-                              {
-                                  Content = post.Content,
-                                  DateOfPost = post.DateOfPost,
-                                  PostId = post.PostId,
-                                  PostingUser = post.PostingUser,
-                                  Title = post.Title
-                              }
-                          };
-            foreach (Comment item in comment)
-            {
-                yield return AutoMapper.Mapper.Map<Comment, CommentDTO>(item);
-            }
+            var comment = (from Userinfo in _context.UserInfos
+                           join comments in _context.Comments on Userinfo equals comments.CommentingUser
+                           join post in _context.Posts on Userinfo equals post.PostingUser
+                           select new Comment()
+                           {
+                               CommentId = comments.CommentId,
+                               CommentingUser = Userinfo,
+                               Content = comments.Content,
+                               DateOfComment = comments.DateOfComment,
+                               Post = post
+                           }).ToList();
+
+            return AutoMapper.Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDTO>>(comment);
+
         }
 
         // GET: api/BlogAPI/5
@@ -60,30 +51,22 @@ namespace BlogAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var comment = from Userinfo in _context.UserInfos
-                          join comments in _context.Comments on Userinfo equals comments.CommentingUser
-                          join post in _context.Posts on Userinfo equals post.PostingUser
-                          select new Comment()
-                          {
-                              CommentId = comments.CommentId,
-                              CommentingUser = Userinfo,
-                              Content = comments.Content,
-                              DateOfComment = comments.DateOfComment,
-                              Post = new Post()
-                              {
-                                  Content = post.Content,
-                                  DateOfPost = post.DateOfPost,
-                                  PostId = post.PostId,
-                                  PostingUser = post.PostingUser,
-                                  Title = post.Title
-                              }
-                          };
-            CommentDTO dto = AutoMapper.Mapper.Map<Comment, CommentDTO>(comment.FirstOrDefault());
-            if (comment.FirstOrDefault(c => c.CommentId == id) == null)
+            var comment = (from Userinfo in _context.UserInfos
+                           join comments in _context.Comments on Userinfo equals comments.CommentingUser
+                           join post in _context.Posts on Userinfo equals post.PostingUser
+                           select new Comment()
+                           {
+                               CommentId = comments.CommentId,
+                               CommentingUser = Userinfo,
+                               Content = comments.Content,
+                               DateOfComment = comments.DateOfComment,
+                               Post = post
+                           }).ToList();
+            CommentDTO dto = AutoMapper.Mapper.Map<Comment, CommentDTO>(comment.FirstOrDefault(c => c.CommentId == id));
+            if (dto == null)
             {
                 return NotFound();
             }
-
             return Ok(dto);
         }
 
@@ -143,7 +126,7 @@ namespace BlogAPI.Controllers
             {
                 savingComment.CommentingUser = _context.UserInfos.FirstOrDefault(id => id.UserInfoID == comments.CommentingUser.UserInfoID);
             }
-            if(comments.Post.PostId > 0)
+            if (comments.Post.PostId > 0)
             {
                 savingComment.Post = _context.Posts.FirstOrDefault(id => id.PostId == comments.Post.PostId);
             }
