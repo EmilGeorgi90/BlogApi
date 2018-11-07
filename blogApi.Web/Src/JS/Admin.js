@@ -8,12 +8,10 @@ $(document).ready(function() {
         $(this).addClass('active');
         var ajaxer = $(this).text();
         ajaxer = ajaxer.split(' ')[28] + ajaxer.split(' ')[29];
-        $("<section>").load(ajaxer + ".html section", { limit: 1 }, function(body, status, xhr) {
-            console.log(xhr);
-            console.log(status);
+        $("section").remove();
+        $("#sectionContainer").append($(document.createElement("section")).load(ajaxer + ".html", function(body, status, xhr) {
             if (status == 'success') {
                 if (ajaxer.includes("Editpost")) {
-                    console.log($("option").length);
                     if ($("#SelectPost > option").length < 2) {
                         $.getJSON("https://localhost:44321/api/posts", function(data, textStatus, jqxhr) {
                             if (textStatus == 'success') {
@@ -26,7 +24,6 @@ $(document).ready(function() {
                         $("#SelectPost").change(function(e) {
                             $.getJSON("https://localhost:44321/api/posts/" + $(this).val(), function(data, textStatus) {
                                 if (textStatus == 'success') {
-                                    console.log(data);
                                     $("#validationCustom01").val(data.title);
                                     $('#validationServer03').append($(document.createElement('option')).val(data.postingUser.name).text(data.postingUser.name));
                                     $('#validationServer03').val(data.postingUser.name);
@@ -59,7 +56,7 @@ $(document).ready(function() {
                     }
                 }
             }
-        });
+        }));
 
         $.getJSON("https://localhost:44321/api/userinfoes",
             function(data, textStatus, jqXHR) {

@@ -41,53 +41,55 @@
                     </ul>
                 </div>
             </nav>
-            <section class="container d-flex col-9 mr-auto ml-2 mt-4">
-                <div class="col-12 d-flex flex-wrap">
-                    <h2 class="text-black col-12">Publish a new post</h2>
-                    <form class="col-12 needs-validation">
-                        <div class="form-row col-12">
-                            <div class="col-12">
-                                <label for="validationCustom01">Post Title</label>
-                                <input type="text" class="form-control" id="validationCustom01" placeholder="Title" value="" required>
-                                <div class="valid-feedback">
+            <div id="sectionContainer">
+                <section class="container d-flex col-9 mr-auto ml-2 mt-4">
+                    <div class="col-12 d-flex flex-wrap">
+                        <h2 class="text-black col-12">Publish a new post</h2>
+                        <form class="col-12 needs-validation">
+                            <div class="form-row col-12">
+                                <div class="col-12">
+                                    <label for="validationCustom01">Post Title</label>
+                                    <input type="text" class="form-control" id="validationCustom01" placeholder="Title" value="" required>
+                                    <div class="valid-feedback">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-row mt-4 col-12">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="validationServer03">Select post author</label>
-                                    <select class="custom-select" id="validationServer03" required>
+                            <div class="form-row mt-4 col-12">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="validationServer03">Select post author</label>
+                                        <select class="custom-select" id="validationServer03" required>
                                   <option value="">Select author</option>
                                 </select>
-                                    <div class="invalid-feedback">invalid select feedback</div>
+                                        <div class="invalid-feedback">invalid select feedback</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-row mt-4 col-12">
-                            <div class="col-12">
-                                <label for="validationServer02">Post Content</label>
-                                <textarea type="text" class="form-control custom-textarea" id="validationServer02" placeholder="Post content" required></textarea>
-                                <div class="valid-feedback">
+                            <div class="form-row mt-4 col-12">
+                                <div class="col-12">
+                                    <label for="validationServer02">Post Content</label>
+                                    <textarea type="text" class="form-control custom-textarea" id="validationServer02" placeholder="Post content" required></textarea>
+                                    <div class="valid-feedback">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-row col-12 mb-5 mt-4">
-                            <p>Featured image</p>
-                            <div class="input-group mb-3">
-                                <div class="col-12 d-flex">
-                                    <button class="btn btn-outline-light col-3" type="button" id="inputGroupFileAddon03" aria-describedby="FileHelp"> <p class="text-dark mb-0">chose file</p>
+                            <div class="form-row col-12 mb-5 mt-4">
+                                <p>Featured image</p>
+                                <div class="input-group mb-3">
+                                    <div class="col-12 d-flex">
+                                        <button class="btn btn-outline-light col-3" type="button" id="inputGroupFileAddon03" aria-describedby="FileHelp"> <p class="text-dark mb-0">chose file</p>
                             </button>
-                                    <p class="text-dark my-auto pl-2 " id="image-url-holder">no image chosen</p>
-                                </div>
-                                <small id="FileHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                        <p class="text-dark my-auto pl-2 " id="image-url-holder">no image chosen</p>
+                                    </div>
+                                    <small id="FileHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 
-                            </div>
-                            <button class="btn btn-primary ml-auto" id="submitter" type="submit">Submit form</button>
-                    </form>
-                    </div>
-            </section>
+                                </div>
+                                <button class="btn btn-primary ml-auto" id="submitter" type="submit">Submit form</button>
+                        </form>
+                        </div>
+                </section>
+                </div>
             </div>
         </div>
         <script src="Src/JS/Admin.js">
