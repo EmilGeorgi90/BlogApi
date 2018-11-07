@@ -82,20 +82,20 @@ namespace BlogAPI.Controllers
             var posts = from Userinfo in _context.UserInfos
                         join comments in _context.Comments on Userinfo equals comments.CommentingUser
                         join post in _context.Posts on Userinfo equals post.PostingUser
-                        select new CommentDTO()
+                        select new Comment()
                         {
                             Content = post.Content,
                             CommentId = comments.CommentId,
-                            CommentingUser = AutoMapper.Mapper.Map<UserInfo, UserinfoDTO>(comments.CommentingUser),
+                            CommentingUser = comments.CommentingUser,
                             DateOfComment = comments.DateOfComment,
-                            Post = AutoMapper.Mapper.Map<Post,PostDTO>(comments.Post)
+                            Post = comments.Post
                         };
-            if (posts is null)
+            var gettingPosts = AutoMapper.Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDTO>>(posts);
+            if (gettingPosts is null)
             {
                 return NotFound();
             }
-
-            return Ok(posts);
+            return Ok(gettingPosts.Where(c => c.Post.PostId == id));
         }
 
         // PUT: api/Posts/5

@@ -5,6 +5,7 @@ $(document).ready(function() {
         event.preventDefault(e);
         $('.active').removeClass('active');
         $(this).addClass('active');
+        $("section").load("EditPost.html");
     });
     $.getJSON("https://localhost:44321/api/userinfoes",
         function(data, textStatus, jqXHR) {
