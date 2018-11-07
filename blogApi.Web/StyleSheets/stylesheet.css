@@ -5,6 +5,7 @@
 
 head,
 body {
+  height: 100%;
   background-color: white;
 }
 
@@ -99,5 +100,6 @@ body .custom-textarea {
 head #image-url-holder,
 body #image-url-holder {
   overflow: hidden;
+  text-overflow: clip;
 }
 /*# sourceMappingURL=stylesheet.css.map */
