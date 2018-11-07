@@ -143,6 +143,10 @@ namespace BlogAPI.Controllers
             {
                 savingComment.CommentingUser = _context.UserInfos.FirstOrDefault(id => id.UserInfoID == comments.CommentingUser.UserInfoID);
             }
+            else if(comments.Post.PostId > 0)
+            {
+                savingComment.Post = _context.Posts.FirstOrDefault(id => id.PostId == comments.Post.PostId);
+            }
             _context.Comments.Add(savingComment);
             await _context.SaveChangesAsync();
 
