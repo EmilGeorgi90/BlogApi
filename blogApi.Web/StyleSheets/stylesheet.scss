@@ -1,0 +1,81 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+head,
+body {
+    width: 100vw;
+    height: 100%;
+    overflow: hidden;
+    background-color: white;
+    .image {
+        height: 37rem;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../Src/img/Cover%20image.png);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: white;
+        .headertextH1 {
+            color: white;
+            width: 35%;
+            padding-left: 5%;
+            padding-top: 3%;
+        }
+    }
+    .posts {
+        height: 800px;
+    }
+    ul {
+        a.nav-link.nav-item {
+            border-radius: 0px;
+            vertical-align: middle;
+        }
+        a.active {
+            p {
+                vertical-align: middle;
+                color: white !important;
+            }
+        }
+    }
+    .nav-item {
+        .active {
+            text-align: center;
+            margin: 0 auto;
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            background-color: blue;
+        }
+        .place-holder {
+            height: 15px;
+            width: 15px;
+            margin: 0 auto;
+        }
+        .nav-link {
+            text-align: end;
+            color: black;
+        }
+    }
+    .card {
+        border-left: 1px solid rgba(0, 0, 0, .125) !important;
+    }
+    .card-img-top {
+        width: 100%;
+        height: 450px;
+        @media screen and (max-width: 600px) {
+            height: 200px;
+        }
+    }
+    .TitleTextMain {
+        color: blue;
+    }
+    .custom-textarea {
+        height: 200px;
+        width: 100%;
+    }
+    #image-url-holder {
+        overflow: hidden;
+        text-overflow: clip;
+    }
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="StyleSheets/stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="src/JS/moment-with-locales.min.js"></script>
+    <title>BlogApi - AdminPage</title>
+</head>
+
+<body>
+    <div class="contianer-fluid col-12 p-0">
+        <header class="col-12 bg-dark d-flex">
+            <h2 class="text-white">CMS - Lises Foodblog</h2>
+            <a class="ml-auto text-white align-self-center btn-dark">login</a>
+        </header>
+        <div class="col-12 d-flex">
+            <nav class="col-3 flex-grow-1 d-flex flex-wrap justify-content-around flex-column m-0 p-0 bg-light">
+                <div class="posts justify-content-between m-0 p-0">
+                    <h4 class="mt-2 pl-2">Posts</h4>
+                    <ul class="nav align-items-start col-12 flex-column nav-pills m-0 p-0 justify-content-around">
+                        <a href="#" class="nav-item mr-2 nav-link active col-12 m-0 p-0 align-content-center">
+                            <p class="pl-4 text-align-center text-primary">Publish post</p>
+                        </a>
+                        <a href="#" class="nav-item mr-2 nav-link col-12 m-0 p-0">
+                            <p class="pl-4 align-self-center text-primary">Edit post</p>
+                        </a>
+                    </ul>
+                    <h4 class="mt-2 pl-2">Users</h4>
+                    <ul class="nav align-items-start col-12 flex-column nav-pills m-0 p-0 justify-content-around">
+                        <a href="#" class="nav-item mr-2 nav-link  col-12 m-0 p-0 align-content-center">
+                            <p class="pl-4 text-align-center text-primary">Create user</p>
+                        </a>
+                        <a href="#" class="nav-item mr-2 nav-link col-12 m-0 p-0">
+                            <p class="pl-4 align-self-center text-primary">Edit user</p>
+                        </a>
+                    </ul>
+                </div>
+            </nav>
+            <section class="container d-flex col-9 mr-auto ml-2 mt-4">
+                <div class="col-12 d-flex flex-wrap">
+                    <h2 class="text-black col-12">Publish a new post</h2>
+                    <form class="col-12 needs-validation">
+                        <div class="form-row col-12">
+                            <div class="col-12">
+                                <label for="validationCustom01">Post Title</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="Title" value="" required>
+                                <div class="valid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4 col-12">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="validationServer03">Select post author</label>
+                                    <select class="custom-select" id="validationServer03" required>
+                                  <option value="">Select author</option>
+                                </select>
+                                    <div class="invalid-feedback">invalid select feedback</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mt-4 col-12">
+                            <div class="col-12">
+                                <label for="validationServer02">Post Content</label>
+                                <textarea type="text" class="form-control custom-textarea" id="validationServer02" placeholder="Post content" required></textarea>
+                                <div class="valid-feedback">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row col-12 mb-5 mt-4">
+                            <p>Featured image</p>
+                            <div class="input-group mb-3">
+                                <div class="col-12 d-flex">
+                                    <button class="btn btn-outline-light col-3" type="button" id="inputGroupFileAddon03" aria-describedby="FileHelp"> <p class="text-dark mb-0">chose file</p>
+                            </button>
+                                    <p class="text-dark my-auto pl-2 " id="image-url-holder">no image chosen</p>
+                                </div>
+                                <small id="FileHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+
+                            </div>
+                            <button class="btn btn-primary ml-auto" id="submitter" type="submit">Submit form</button>
+                    </form>
+                    </div>
+            </section>
+            </div>
+        </div>
+        <script src="Src/JS/Admin.js">
+        </script>
+</body>
+
+</html>
