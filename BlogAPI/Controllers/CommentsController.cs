@@ -139,11 +139,11 @@ namespace BlogAPI.Controllers
             {
                 return BadRequest();
             }
-            else if (comments.CommentingUser.UserInfoID > 0)
+            if (comments.CommentingUser.UserInfoID > 0)
             {
                 savingComment.CommentingUser = _context.UserInfos.FirstOrDefault(id => id.UserInfoID == comments.CommentingUser.UserInfoID);
             }
-            else if(comments.Post.PostId > 0)
+            if(comments.Post.PostId > 0)
             {
                 savingComment.Post = _context.Posts.FirstOrDefault(id => id.PostId == comments.Post.PostId);
             }
