@@ -84,7 +84,7 @@ namespace BlogAPI.Controllers
                         join post in _context.Posts on Userinfo equals post.PostingUser
                         select new Comment()
                         {
-                            Content = post.Content,
+                            Content = comments.Content,
                             CommentId = comments.CommentId,
                             CommentingUser = comments.CommentingUser,
                             DateOfComment = comments.DateOfComment,

@@ -17,7 +17,7 @@ $(document).ready(function() {
                             if (textStatus == 'success') {
                                 postdata = data;
                                 $.each(data, function(index, valueOfElement) {
-                                    $("#SelectPost").append($(document.createElement('option')).text(valueOfElement.postId).val(valueOfElement.postId));
+                                    $("#SelectPost").append($(document.createElement('option')).text("title: " + valueOfElement.title + " id: " + valueOfElement.postId).val(valueOfElement.postId));
                                 });
                             }
                         });
