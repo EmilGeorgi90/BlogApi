@@ -110,7 +110,6 @@ namespace BlogAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             var userInfos = from Userinfo in _context.UserInfos
                             join comments in _context.Comments on Userinfo equals comments.CommentingUser
                             join post in _context.Posts on Userinfo equals post.PostingUser

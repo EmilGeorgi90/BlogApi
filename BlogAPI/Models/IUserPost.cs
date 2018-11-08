@@ -7,5 +7,6 @@ namespace BlogAPI.Models
 {
     public interface IUserPost
     {
+
     }
 }

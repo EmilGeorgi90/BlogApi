@@ -1,7 +1,6 @@
 $(document).ready(function() {
     $.getJSON("https://localhost:44321/api/Posts", function(data) {
         console.log(data);
-
         $(data).each(function(index, item) {
             $(".card-group").append(
                 $(document.createElement('div')).addClass("card").addClass('col-12').append(
